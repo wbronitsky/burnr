@@ -19,10 +19,10 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       })
     } else {
       that.myPeer.on('connection', function(conn){
-        $('.chatList').append(conn.metadata + " joined your burnr");
+        $('.chatList').append(escape(conn.metadata) + " joined your burnr");
         window.Chat.Store.conn = conn;
         window.Chat.Store.conn.on('data', function(data){
-          var newLine = $('<li>'+data+'</li>')
+          var newLine = $('<li>'+escape(data)+'</li>')
           $('.chatList').append(newLine);
         })
       })
@@ -41,8 +41,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       $('.chatInput').val("");
-      window.Chat.Store.conn.send(that.myId+": "+chatData);
-      var newLine = $('<li>'+that.myId+": "+chatData+'</li>')
+      // window.Chat.Store.conn.send(that.myId+": "+chatData);
+      var newLine = $('<li>'+escape(that.myId)+": "+escape(chatData)+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
     }
