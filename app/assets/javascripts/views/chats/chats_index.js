@@ -13,12 +13,13 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     that.foreignId = $('#params').data('foreign');
     
     if (that.foreignId){
-      window.Chat.Store.conn = that.myPeer.connect(that.foreignId);
+      window.Chat.Store.conn = that.myPeer.connect(that.foreignId, {metadata: that.myId});
       window.Chat.Store.conn.on('data', function(data){
-        $('.chatWindow').append(data);
+        $('.chatList').append(data);
       })
     } else {
       that.myPeer.on('connection', function(conn){
+        $('.chatList').append(conn.metadata + "joined your burnr");
         window.Chat.Store.conn = conn;
         window.Chat.Store.conn.on('data', function(data){
           var newLine = $('<li>'+data+'</li>')
