@@ -1,0 +1,17 @@
+<h3>Create Chat</h3>
+
+<p>To create a chat, just put in an identifier in the create field.</p>
+<p> You can give other people that indeifier, and they can chat with you</p>
+<h4>Create a Burnr</h4>
+<form action="<%= chat_url %>" method="get">
+  <input type="text" placeholder="indentifier" name="indentifier">
+  <input type="submit" value="Create Burnr">
+</form>
+
+<p>To join a chat, put in a foreign identifier, then your own</p>
+<h4>Join a Burnr</h4>
+<form action="<%= chat_url %>" method="get">
+  <input type="text" placeholder="foreign indentifier" name="foreignIndentifier">
+  <input type="text" placeholder="your identifier" name="indentifier">
+  <input type="submit" value="Join Burnr">
+</form>
