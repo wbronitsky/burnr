@@ -21,7 +21,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       that.myPeer.on('connection', function(conn){
         window.Chat.Store.conn = conn;
         window.Chat.Store.conn.on('data', function(data){
-          var newLine = $('<li>'+that.foreignId+": "+data+'</li>')
+          var newLine = $('<li>'+data+'</li>')
           $('.chatList').append(newLine);
         })
       })
@@ -39,8 +39,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
-      $(event.Target).empty();
-      window.Chat.Store.conn.send(chatData);
+      $('.chatInput').val("");
+      window.Chat.Store.conn.send(myId+": "+chatData);
       var newLine = $('<li>'+that.myId+": "+chatData+'</li>')
       $('.chatList').append(newLine);
     }

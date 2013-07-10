@@ -11,6 +11,9 @@
  *= require_self
  *= require_tree .
  */
+.chatList{
+  list-style: none;
+}
 .chatContainer{
   border: solid black 1px;
   border-radius: 5px;
