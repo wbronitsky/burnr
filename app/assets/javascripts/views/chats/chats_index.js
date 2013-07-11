@@ -52,7 +52,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
            window.Chat.Store.conn.on('data', function(data){
             $('.chatList').append(data);
           });
-        } 
+        })
+       
       }
       $('.chatHead').empty()
       $('.chatHead').append('/'+that.burnrId);
