@@ -102,14 +102,14 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
   },
 
   burn: function(){
-    window.Chat.Store.conn.close();
-    this.myPeer.disconnect();
-    this.myPeer.destroy();
-    
     $('.chatList').empty();
     $('.chatHead').empty()
     $('.chatHead').append('<input name="burnr" placeholder="burnrId" id="burnrId">')
     $('.chatHead').append(' <input name="name" placeholder="alias" id="name">')
     $('.chatHead').append(' <input name="key" placeholder="encryption key" id="key">')
+
+    window.Chat.Store.conn.close();
+    this.myPeer.disconnect();
+    this.myPeer.destroy();
   }
 });
