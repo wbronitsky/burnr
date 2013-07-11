@@ -49,7 +49,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          if (typeof data === 'array'){
+          if (typeof data === 'object'){
             console.log(data);
             that.theirPublicKeyString = data[0];
           } else {
@@ -71,7 +71,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
-          window.Chat.Store.conn.send([that.yourPublicKeyString]);
+          window.Chat.Store.conn.send(that.yourPublicKeyString);
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
             data = cryptico.decrypt(data.chipher, that.yourRSAkey);
