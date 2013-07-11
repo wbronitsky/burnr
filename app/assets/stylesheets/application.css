@@ -11,6 +11,19 @@
  *= require_self
  *= require_tree .
  */
+ .chatHead{
+  font-family: monospace;
+ }
+ #burnrId{
+  margin-left: 4px;
+  width: 130px;
+ }
+ #name{
+  width: 130px;
+ }
+ #burnIt{
+  float: right;
+ }
  .infoHeader{
   margin-left: 25%;
  }
@@ -28,28 +41,30 @@
   margin-top: 0px;
  }
 .header{
-  padding: 5px;
   height: 5%;
   width: 100%;
-  background-color: #34495E;
-  color: #D35400;
   margin: 0px !important;
-  font-family: times;
+  font-family: monospace;
+  font-size: 15px;
+  padding-top: 10px;
+  text-align: center;
 }
 .chatList{
   list-style: none;
+  font-family: monospace;
+  padding-left: 5px;
 }
 .chatContainer{
   margin: 5px;
-  width: 60%;
-  height: 400px;
+  width: 320px;
+  height: 450px;
+  margin: 0 auto;
   box-sizing: border-box;
 }
 .chatWindow{
-  background-color: #ECF0F1;
   height: 80%;
-  border: solid black 1px;
-  border-radius: 5px;
+  border: solid gray 2.5px;
+  border-radius: 1px;
   width: 90%;
   margin-top: 2%;
   margin-right: 5%;
@@ -58,9 +73,13 @@
   box-sizing: border-box;
 }
 .chatInput{
-  width: 80%;
-  margin-left: 10%;
-  margin-right: 10%
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
   box-sizing: border-box;
+}
+.chatInput:focus{
+  outline-color: black;
+  outline-width: 2px;
 }
 

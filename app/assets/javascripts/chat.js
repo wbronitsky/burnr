@@ -4,6 +4,7 @@ window.Chat = {
   Views: {},
   Routers: {},
   Store: {},
+  Utilities: {},
   initialize: function($chatWindow) {
     var that = this;
     new Chat.Routers.Chats($chatWindow);
