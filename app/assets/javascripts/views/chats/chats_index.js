@@ -20,7 +20,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       var chatData = $(event.target).val();
       $('.chatInput').val("");
       // window.Chat.Store.conn.send(that.myId+": "+chatData);
-      var newLine = $('<li>'+that.myId+": "+chatData+'</li>')
+      var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
     }
@@ -32,7 +32,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       that.burnrId = $('#burnrId').val();
       that.alias = $('name').val();
       that.myPeer = new Peer(that.alias, {key: '8x1tv0bso1jrlik9'})
-      var conn = that.myPeer.connect(that.foreignId, {metadata: that.myId});
+      var conn = that.myPeer.connect(that.burnrId, {metadata: that.alias});
       
       if (conn.open){
         console.log('yours')
