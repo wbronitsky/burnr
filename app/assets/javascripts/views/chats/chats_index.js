@@ -21,7 +21,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       sendData = that.alias+": "+chatData;
       sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
       $('.chatInput').val("");
-      window.Chat.Store.conn.send(that.alias+": "+chatData);
+      window.Chat.Store.conn.send(sendData);
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
@@ -48,6 +48,10 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
+          if (typeof data === 'array'){
+            that.theirPublicKeyString = data[0];
+          };
+          
           data = cryptico.decrypt(data, that.yourRSAkey);
           $('.chatList').append(data);
         });
@@ -58,6 +62,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
         
         that.myPeer.on('connection', function(newConn){
+          newConn.send([that.yourPublicKeyString]);
           that.theirPublicKeyString = newConn.metadata[1];
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
