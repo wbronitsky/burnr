@@ -39,7 +39,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
       that.passPhrase = that.alias;
       that.yourRSAkey = cryptico.generateRSAKey(that.passPhrase, 1024)
-      that.yourPublicKeyString = ctryptico.publicKeyString(that.yourRSAkey);
+      that.yourPublicKeyString = cryptico.publicKeyString(that.yourRSAkey);
 
       var conn = that.myPeer.connect(that.burnrId, {metadata: [that.alias, that.yourPublicKeyString]});
 
