@@ -91,18 +91,20 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           })
         })
       });
-      $('.chatHead').empty()
-      $('.chatHead').append('/'+that.burnrId)
-      $('.chatHead').append("<button class='burn'>burn</button>")
-      
+
       this.myPeer.on('close', function(){
+        console.log('peer closed')
         that.burn();
       });
 
       window.Chat.Store.conn.on('close', function(){
-        console.log('closed');
+        console.log('conn closed');
         that.burn();
       });
+
+      $('.chatHead').empty()
+      $('.chatHead').append('/'+that.burnrId)
+      $('.chatHead').append("<button class='burn'>burn</button>")
     }
   },
 
