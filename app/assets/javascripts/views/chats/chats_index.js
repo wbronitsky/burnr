@@ -31,7 +31,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       that.burnrId = $('#burnrId').val();
       that.alias = $('#name').val();
-      that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'});
+      that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
 
       var conn = that.myPeer.connect(that.burnrId, {metadata: that.alias});
 
@@ -41,7 +41,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           $('.chatList').append(data);
         });
       } else {
-        that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'})
+        that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
         that.myPeer.on('connection', function(newConn){
           $('.chatList').append((newConn.metadata) + " joined your burnr");
           window.Chat.Store.conn = newConn;
