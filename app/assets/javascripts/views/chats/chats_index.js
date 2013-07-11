@@ -100,6 +100,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       });
 
       window.Chat.Store.conn.on('close', function(){
+        console.log('closed');
         that.burn();
       });
     }
