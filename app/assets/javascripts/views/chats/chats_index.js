@@ -67,7 +67,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         that.myPeer.destroy();
         $('.chatList').empty();
         $('.chatHead').empty()
-        $('.chatHead').append('<input name="burnr" placeholder="brnr id" id="burnrId">')
+        $('.chatHead').append('<input name="burnr" placeholder="burnrId" id="burnrId">')
         $('.chatHead').append(' <input name="name" placeholder="alias" id="name">')
       })
     }
