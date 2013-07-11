@@ -47,7 +47,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         
       } else {
         console.log('yours')
-        peer.on('connection', function(conn){
+        that.myPeer.on('connection', function(conn){
           window.Chat.Store.conn = conn;
            window.Chat.Store.conn.on('data', function(data){
             $('.chatList').append(data);
