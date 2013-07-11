@@ -25,6 +25,7 @@
  }
  .burn{
   float: right;
+  margin-right: 5%;
   border-style: none;
   background-color: #ECF0F1;
   font-family: monospace;
@@ -32,14 +33,12 @@
  .burn:hover{
   background-color: #E74C3C;
  }
- .chatHead{
-  font-family: monospace;
- }
  #key{
   width: 80px;
  }
  #burnrId{
-  margin-left: 5px;
+  padding-left: 0px;
+  margin-left: 0px;
   width: 80px;
  }
  #name{
@@ -85,12 +84,26 @@
   margin: 0 auto;
   box-sizing: border-box;
 }
+.chatHead{
+  border: solid gray 2.5px;
+  border-radius: 1px;
+  border-bottom: 0px;
+  padding-left: 7px;
+  margin-top: 2%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 0px;
+  font-family: monospace;
+  vertical-align: center;
+  height: 30px;
+ }
 .chatWindow{
   height: 80%;
   border: solid gray 2.5px;
   border-radius: 1px;
+  border-top: 0px;
   width: 90%;
-  margin-top: 2%;
+  margin-top: 0px;
   margin-right: 5%;
   margin-left: 5%;
   overflow: hidden;

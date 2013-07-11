@@ -5,7 +5,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
   events: {
     "keyup .chatInput": "chat",
     "keyup #key": "submitBurn",
-    "click .burn": "burn"
+    "click .burn": "burn",
+    "keyup #name": "submitBurn"
   },
 
   render: function(){
@@ -42,7 +43,13 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       
       that.alias = $('#name').val();
       that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
-      that.passPhrase = $('#key').val();
+      
+      if ($('#key').val() == "") {
+        that.passPhrase = that.alias
+      } else {
+        that.passPhrase = $('#key').val();
+      };
+
       that.yourRSAkey = cryptico.generateRSAKey(that.passPhrase, 1024)
       that.yourPublicKeyString = cryptico.publicKeyString(that.yourRSAkey);
 
