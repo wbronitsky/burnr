@@ -47,7 +47,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          data = cryptico.decrypt(data, that.yourPublicKeyString);
+          data = cryptico.decrypt(data, that.yourRSAkey);
           $('.chatList').append(data);
         });
       });
@@ -60,7 +60,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           window.Chat.Store.conn = newConn;
           window.Chat.Store.conn.on('data', function(data){
-            data = cryptico.decrypt(data, that.yourPublicKeyString);
+            data = cryptico.decrypt(data, that.yourRSAkey);
             var newLine = $('<li>'+data+'</li>')
             $('.chatList').append(newLine);
           })
