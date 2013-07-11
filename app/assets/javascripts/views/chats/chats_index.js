@@ -49,10 +49,12 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
           if (typeof data === 'array'){
+            console.log(data);
             that.theirPublicKeyString = data[0];
           } else {
             console.log(data);
             data = cryptico.decrypt(data.cipher, that.yourRSAkey);
+            console.log(data);
             $('.chatList').append(data);
           }
         });
@@ -70,7 +72,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           window.Chat.Store.conn = newConn;
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
-            data = cryptico.decrypt(data.chipher, that.yourRSAkey).plaintext;
+            data = cryptico.decrypt(data.chipher, that.yourRSAkey);
+            console.log(data);
             var newLine = $('<li>'+data+'</li>')
             $('.chatList').append(newLine);
           })
