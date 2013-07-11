@@ -20,7 +20,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       var chatData = $(event.target).val();
       $('.chatInput').val("");
       // window.Chat.Store.conn.send(that.myId+": "+chatData);
-      var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
+      var newLine = $('<li>'+that.myId+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
     }
@@ -28,35 +28,30 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
   submitBurn: function(event){
     var that = this;
-    if (event.keyCode === 13){
+    if (event.keyCode == 13){
       that.burnrId = $('#burnrId').val();
-      that.alias = $('name').val();
-      that.myPeer = new Peer(that.alias, {key: '8x1tv0bso1jrlik9'})
+      that.alias = $('#name').val();
+      that.myPeer = new Peer(that.burnrId, {key: '8x1tv0bso1jrlik9'});
+
       var conn = that.myPeer.connect(that.burnrId, {metadata: that.alias});
-      console.log(conn);
+
       if (conn.open){
-        console.log('mine')
-        that.myPeer.on('connection', function(conn){
-          $('.chatList').append((conn.metadata) + " joined your burnr");
-          window.Chat.Store.conn = conn;
+        window.Chat.Store.conn = conn 
+        window.Chat.Store.conn.on('data', function(data){
+          $('.chatList').append(data);
+        });
+      } else {
+        that.myPeer.on('connection', function(newConn){
+          $('.chatList').append((newConn.metadata) + " joined your burnr");
+          window.Chat.Store.conn = newConn;
           window.Chat.Store.conn.on('data', function(data){
-            var newLine = $('<li>'+data+'</li>')
+            var newLine = $('<li>'+(data)+'</li>')
             $('.chatList').append(newLine);
           })
         })
-        
-      } else {
-        console.log('yours')
-        that.myPeer.on('connection', function(conn){
-          window.Chat.Store.conn = conn;
-           window.Chat.Store.conn.on('data', function(data){
-            $('.chatList').append(data);
-          });
-        })
-       
       }
       $('.chatHead').empty()
-      $('.chatHead').append('/'+that.burnrId);
+      $('.chatHead').append('/'+that.burnrId)
     }
   }
 });
