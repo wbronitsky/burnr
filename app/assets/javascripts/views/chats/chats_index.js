@@ -48,16 +48,13 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       var conn = that.myPeer.connect(that.burnrId, {metadata: [that.alias, that.yourPublicKeyString]});
 
       that.myPeer.on('open', function(){
-        console.log('yours')
+        console.log('thiers')
+        $('.chatList').append('<li>burnr joined, wait for response</li>')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          
-          console.log(data);
 
           that.theirPublicKeyString = data[1];
           data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
-          
-          console.log(data);
           
           $('.chatList').append(data.plaintext);
         });
@@ -66,9 +63,9 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       that.myPeer.on('error', function(){
        console.log('mine')
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
+        $('.chatList').append('<li>burnr initialized</li>')
 
         that.myPeer.on('connection', function(newConn){
-          
           that.theirPublicKeyString = newConn.metadata[1];
           console.log(that.theirPublicKeyString);
 
@@ -77,13 +74,10 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           window.Chat.Store.conn = newConn;
 
           window.Chat.Store.conn.on('data', function(data){
-            console.log(data);
 
             that.theirPublicKeyString = data[1];
             data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
-           
-            console.log(data);
-           
+
             var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
           })

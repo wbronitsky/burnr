@@ -6,6 +6,8 @@ It makes a peer to peer connection with someone based upon a chat name. Just cre
 
 Nothing is saved, and everything is destroyed when you click burn.
 
+All chats are encrypted using public key encryption.
+
 Feel free to start over once you burn your chat. 
 
 Enjoy.
