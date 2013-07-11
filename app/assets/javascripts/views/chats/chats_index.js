@@ -49,14 +49,11 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          if (typeof data === 'array'){
-            that.theirPublicKeyString = data[0];
-          } else {
-            console.log(data);
-            data = cryptico.decrypt(data.cipher, that.yourRSAkey);
-            console.log(data);
-            $('.chatList').append(data.plaintext);
-          }
+          console.log(data);
+          that.theirPublicKeyString = data[1];
+          data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
+          console.log(data);
+          $('.chatList').append(data.plaintext);
         });
       });
 
@@ -71,14 +68,11 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
-          
-          window.Chat.Store.conn.on('open', function(){
-            conn.send([that.yourPublicKeyString])
-          });
 
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
-            data = cryptico.decrypt(data.chipher, that.yourRSAkey);
+            that.theirPublicKeyString = data[1];
+            data = cryptico.decrypt(data[0].chipher, that.yourRSAkey);
             console.log(data);
             var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
