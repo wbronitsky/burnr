@@ -4,7 +4,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
   events: {
     "keyup .chatInput": "chat",
-    "keyup #name": "submitBurn"
+    "keyup #key": "submitBurn",
+    "click .burn": "burn"
   },
 
   render: function(){
@@ -41,7 +42,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       
       that.alias = $('#name').val();
       that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
-      that.passPhrase = that.alias;
+      that.passPhrase = $('#key').val();
       that.yourRSAkey = cryptico.generateRSAKey(that.passPhrase, 1024)
       that.yourPublicKeyString = cryptico.publicKeyString(that.yourRSAkey);
 
@@ -49,7 +50,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
       that.myPeer.on('open', function(){
         console.log('thiers')
-        $('.chatList').append('<li>burnr joined, wait for response</li>')
+        $('.chatList').append('<li>please wait</li>')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
 
@@ -87,16 +88,21 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       $('.chatHead').append('/'+that.burnrId)
       $('.chatHead').append("<button class='burn'>burn</button>")
       
-      $('.burn').on('click', function(){
-        window.Chat.Store.conn.close();
-        that.myPeer.disconnect();
-        that.myPeer.destroy();
-        
-        $('.chatList').empty();
-        $('.chatHead').empty()
-        $('.chatHead').append('<input name="burnr" placeholder="burnrId" id="burnrId">')
-        $('.chatHead').append(' <input name="name" placeholder="alias" id="name">')
+      that.myPeer.on('close', function(){
+        that.burn();
       })
     }
+  },
+
+  burn: function(){
+    window.Chat.Store.conn.close();
+    this.myPeer.disconnect();
+    this.myPeer.destroy();
+    
+    $('.chatList').empty();
+    $('.chatHead').empty()
+    $('.chatHead').append('<input name="burnr" placeholder="burnrId" id="burnrId">')
+    $('.chatHead').append(' <input name="name" placeholder="alias" id="name">')
+    $('.chatHead').append(' <input name="key" placeholder="encryption key" id="key">')
   }
 });

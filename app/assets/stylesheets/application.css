@@ -35,12 +35,15 @@
  .chatHead{
   font-family: monospace;
  }
+ #key{
+  width: 80px;
+ }
  #burnrId{
-  margin-left: 2px;
-  width: 130px;
+  margin-left: 5px;
+  width: 80px;
  }
  #name{
-  width: 130px;
+  width: 80px;
  }
  #burnIt{
   float: right;
