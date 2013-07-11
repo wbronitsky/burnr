@@ -33,7 +33,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       that.alias = $('name').val();
       that.myPeer = new Peer(that.alias, {key: '8x1tv0bso1jrlik9'})
       var conn = that.myPeer.connect(that.burnrId, {metadata: that.alias});
-      
+      console.log(conn);
       if (conn.open){
         console.log('yours')
         window.Chat.Store.conn = conn;
