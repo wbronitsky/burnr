@@ -20,6 +20,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       var chatData = $(event.target).val();
       sendData = that.alias+": "+chatData;
       sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
+      console.log(sendData)
       $('.chatInput').val("");
       window.Chat.Store.conn.send(sendData);
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
@@ -65,6 +66,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
         
         that.myPeer.on('connection', function(newConn){
+          console.log(that.yourPublicKeyString);
           newConn.send([that.yourPublicKeyString]);
           that.theirPublicKeyString = newConn.metadata[1];
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
