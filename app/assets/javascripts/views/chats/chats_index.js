@@ -50,10 +50,10 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         window.Chat.Store.conn.on('data', function(data){
           if (typeof data === 'array'){
             that.theirPublicKeyString = data[0];
-          };
-          
-          data = cryptico.decrypt(data, that.yourRSAkey);
-          $('.chatList').append(data);
+          } else {
+            data = cryptico.decrypt(data, that.yourRSAkey);
+            $('.chatList').append(data);
+          }
         });
       });
 
