@@ -30,6 +30,9 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     var that = this;
     if (event.keyCode == 13){
       that.burnrId = $('#burnrId').val();
+      if (that.burnrId[0] == "/"){
+        that.burnrId = that.burnrId.slice(1);
+      };
       that.alias = $('#name').val();
       that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
 
@@ -41,8 +44,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         window.Chat.Store.conn.on('data', function(data){
           $('.chatList').append(data);
         });
-      })
-      
+      });
+
       that.myPeer.on('error', function(){
        console.log('mine')
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
@@ -54,9 +57,19 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
             $('.chatList').append(newLine);
           })
         })
-      })
+      });
       $('.chatHead').empty()
       $('.chatHead').append('/'+that.burnrId)
+      $('.chatHead').append("<button class='burn'>burn</button>")
+      $('.burn').on('click', function(){
+        window.Chat.Store.conn.close();
+        that.myPeer.disconnect();
+        that.myPeer.destroy();
+        $('.chatList').empty();
+        $('.chatHead').empty()
+        $('.chatHead').append('<input name="burnr" placeholder="brnr id" id="burnrId">')
+        $('.chatHead').append(' <input name="name" placeholder="alias" id="name">')
+      })
     }
   }
 });
