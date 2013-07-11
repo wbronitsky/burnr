@@ -19,8 +19,8 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       $('.chatInput').val("");
-      // window.Chat.Store.conn.send(that.myId+": "+chatData);
-      var newLine = $('<li>'+that.myId+": "+chatData+'</li>')
+      window.Chat.Store.conn.send(that.alias+": "+chatData);
+      var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
     }
