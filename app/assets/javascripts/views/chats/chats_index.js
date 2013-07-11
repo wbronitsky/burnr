@@ -56,7 +56,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
             console.log(data);
             data = cryptico.decrypt(data.cipher, that.yourRSAkey);
             console.log(data);
-            $('.chatList').append(data);
+            $('.chatList').append(data.plaintext);
           }
         });
       });
@@ -67,16 +67,16 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         
         that.myPeer.on('connection', function(newConn){
           console.log(that.yourPublicKeyString);
-          newConn.send([that.yourPublicKeyString]);
           that.theirPublicKeyString = newConn.metadata[1];
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
+          window.Chat.Store.conn.send([that.yourPublicKeyString]);
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
             data = cryptico.decrypt(data.chipher, that.yourRSAkey);
             console.log(data);
-            var newLine = $('<li>'+data+'</li>')
+            var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
           })
         })
