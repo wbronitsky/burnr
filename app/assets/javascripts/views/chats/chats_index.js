@@ -19,7 +19,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       sendData = that.alias+": "+chatData;
-      sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
+      sendData = cryptico.encrypt(sendData);
       console.log(sendData)
       $('.chatInput').val("");
       window.Chat.Store.conn.send([sendData, that.yourPublicKeyString]);
@@ -49,27 +49,36 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          that.theirPublicKeyString = data[1];
-          console.log(data);
-          data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
-          console.log(data);
-          $('.chatList').append(data.plaintext);
+          if (typeof data === 'array'){
+            that.theirPublicKeyString = data[0];
+          } else {
+            console.log(data);
+            data = cryptico.decrypt(data.cipher, that.yourRSAkey);
+            console.log(data);
+            $('.chatList').append(data.plaintext);
+          }
         });
       });
 
       that.myPeer.on('error', function(){
        console.log('mine')
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
+
+
         
         that.myPeer.on('connection', function(newConn){
           that.theirPublicKeyString = newConn.metadata[1];
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
+          
+          window.Chat.Store.conn.on('open', function(){
+            conn.send([that.yourPublicKeyString])
+          });
+
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
-            that.theirPublicKeyString = data[1];
-            data = cryptico.decrypt(data[0].chipher, that.yourRSAkey);
+            data = cryptico.decrypt(data.chipher, that.yourRSAkey);
             console.log(data);
             var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
