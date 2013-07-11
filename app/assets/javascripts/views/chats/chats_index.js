@@ -42,7 +42,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       };
       
       that.alias = $('#name').val();
-      that.myPeer = new Peer({key: 'n2zagxxl5mnp14i'});
+      that.myPeer = new Peer({key: 'p18l29bd9f11yvi'});
       
       if ($('#key').val() == "") {
         that.passPhrase = that.alias
@@ -70,7 +70,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
       that.myPeer.on('error', function(){
        console.log('mine')
-        that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
+        that.myPeer = new Peer(that.burnrId, {key: 'p18l29bd9f11yvi'})
         $('.chatList').append('<li>burnr initialized</li>')
 
         that.myPeer.on('connection', function(newConn){
