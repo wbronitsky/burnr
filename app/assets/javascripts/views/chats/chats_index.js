@@ -21,8 +21,6 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       sendData = that.alias+": "+chatData;
       sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
       
-      console.log(sendData)
-      
       window.Chat.Store.conn.send([sendData, that.yourPublicKeyString]);
 
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
@@ -82,7 +80,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
             console.log(data);
 
             that.theirPublicKeyString = data[1];
-            data = cryptico.decrypt(data[0].chipher, that.yourRSAkey);
+            data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
            
             console.log(data);
            
