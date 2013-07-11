@@ -19,7 +19,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       sendData = that.alias+": "+chatData;
-      sendData = cryptico.encrypt(sendData, theirPublicKeyString);
+      sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
       
       console.log(sendData)
       
