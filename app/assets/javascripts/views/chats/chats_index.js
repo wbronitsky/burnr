@@ -22,7 +22,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
       console.log(sendData)
       $('.chatInput').val("");
-      window.Chat.Store.conn.send(sendData);
+      window.Chat.Store.conn.send([sendData, that.yourPublicKeyString]);
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
@@ -49,15 +49,11 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
          console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
-          if (typeof data === 'object'){
-            console.log(data);
-            that.theirPublicKeyString = data[0];
-          } else {
-            console.log(data);
-            data = cryptico.decrypt(data.cipher, that.yourRSAkey);
-            console.log(data);
-            $('.chatList').append(data.plaintext);
-          }
+          that.theirPublicKeyString = data[1];
+          console.log(data);
+          data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
+          console.log(data);
+          $('.chatList').append(data.plaintext);
         });
       });
 
@@ -66,15 +62,14 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
         
         that.myPeer.on('connection', function(newConn){
-          console.log(that.yourPublicKeyString);
           that.theirPublicKeyString = newConn.metadata[1];
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
-          window.Chat.Store.conn.send(that.yourPublicKeyString);
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
-            data = cryptico.decrypt(data.chipher, that.yourRSAkey);
+            that.theirPublicKeyString = data[1];
+            data = cryptico.decrypt(data[0].chipher, that.yourRSAkey);
             console.log(data);
             var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
