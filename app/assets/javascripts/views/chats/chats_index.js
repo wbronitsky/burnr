@@ -19,7 +19,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       $('.chatInput').val("");
-      window.Chat.Store.conn.send(that.alias+": "+chatData);
+      // window.Chat.Store.conn.send(that.alias+": "+chatData);
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
@@ -31,7 +31,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       that.burnrId = $('#burnrId').val();
       that.alias = $('#name').val();
-      that.myPeer = new Peer(that.burnrId, {key: '8x1tv0bso1jrlik9'});
+      that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'});
 
       var conn = that.myPeer.connect(that.burnrId, {metadata: that.alias});
 
