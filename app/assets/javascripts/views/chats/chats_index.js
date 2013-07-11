@@ -35,10 +35,6 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
   submitBurn: function(event){
     var that = this;
     if (event.keyCode == 13){
-      $('.chatHead').empty();
-      $('.chatHead').append('/'+that.burnrId);
-      $('.chatHead').append("<button class='burn'>burn</button>");
-      
       this.burnrId = $('#burnrId').val();
       
       if (that.burnrId[0] == "/"){
@@ -53,6 +49,10 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       } else {
         that.passPhrase = $('#key').val();
       };
+
+      $('.chatHead').empty();
+      $('.chatHead').append('/'+that.burnrId);
+      $('.chatHead').append("<button class='burn'>burn</button>");
 
       this.yourRSAkey = cryptico.generateRSAKey(that.passPhrase, 1024)
       this.yourPublicKeyString = cryptico.publicKeyString(that.yourRSAkey);
