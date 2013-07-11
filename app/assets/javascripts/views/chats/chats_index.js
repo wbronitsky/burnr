@@ -19,13 +19,16 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
       sendData = that.alias+": "+chatData;
-      sendData = cryptico.encrypt(sendData);
+      sendData = cryptico.encrypt(sendData, theirPublicKeyString);
+      
       console.log(sendData)
-      $('.chatInput').val("");
+      
       window.Chat.Store.conn.send([sendData, that.yourPublicKeyString]);
+
       var newLine = $('<li>'+that.alias+": "+chatData+'</li>')
       $('.chatList').append(newLine);
       $('.chatWindow').scrollTop($('.chatWindow')[0].scrollHeight);
+      $('.chatInput').val("");
     }
   },
 
@@ -33,6 +36,7 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
     var that = this;
     if (event.keyCode == 13){
       that.burnrId = $('#burnrId').val();
+      
       if (that.burnrId[0] == "/"){
         that.burnrId = that.burnrId.slice(1);
       };
@@ -46,13 +50,17 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
       var conn = that.myPeer.connect(that.burnrId, {metadata: [that.alias, that.yourPublicKeyString]});
 
       that.myPeer.on('open', function(){
-         console.log('yours')
+        console.log('yours')
         window.Chat.Store.conn = conn 
         window.Chat.Store.conn.on('data', function(data){
+          
           console.log(data);
+
           that.theirPublicKeyString = data[1];
           data = cryptico.decrypt(data[0].cipher, that.yourRSAkey);
+          
           console.log(data);
+          
           $('.chatList').append(data.plaintext);
         });
       });
@@ -61,19 +69,23 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
        console.log('mine')
         that.myPeer = new Peer(that.burnrId, {key: 'n2zagxxl5mnp14i'})
 
-
-        
         that.myPeer.on('connection', function(newConn){
+          
           that.theirPublicKeyString = newConn.metadata[1];
+          console.log(that.theirPublicKeyString);
+
           $('.chatList').append('<li>'+(newConn.metadata[0]) + " joined your burnr</li>");
           
           window.Chat.Store.conn = newConn;
 
           window.Chat.Store.conn.on('data', function(data){
             console.log(data);
+
             that.theirPublicKeyString = data[1];
             data = cryptico.decrypt(data[0].chipher, that.yourRSAkey);
+           
             console.log(data);
+           
             var newLine = $('<li>'+data.plaintext+'</li>')
             $('.chatList').append(newLine);
           })
