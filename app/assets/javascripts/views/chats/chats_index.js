@@ -20,7 +20,12 @@ Chat.Views.ChatsIndex = Backbone.View.extend({
 
     if (event.keyCode == 13){
       var chatData = $(event.target).val();
+      if (this.passPhrase != "htmlsafeoff"){
+        chatData = window.Chat.Utilities.safeHTML(chatData); 
+      };
       sendData = that.alias+": "+chatData;
+      
+      console.log(chatData);
       sendData = cryptico.encrypt(sendData, that.theirPublicKeyString);
       
       window.Chat.Store.conn.send([sendData, that.yourPublicKeyString]);
