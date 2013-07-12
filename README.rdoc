@@ -11,3 +11,5 @@ All chats are encrypted using public key encryption.
 Feel free to start over once you burn your chat. 
 
 Enjoy.
+
+Note: Only works in latest updates of Firefox and Chrome.
